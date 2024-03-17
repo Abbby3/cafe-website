@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contact.css">
+    <title>Bookings and Inquiries - Café au Couture</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li id="navhome"><a href="home.html">Home</a></li>
+        <li id="navcontact"><a href="contact.html">Bookings and Inquiries</a></li>
+      </ul>
+    </nav>
+
+    <header>
+      <h1>Bookings and Inquiries</h1><br>
+      <p>Please use the below form to contact us.<br>Inquiries will be responded to within 15 business days.</p>
+    </header>
+
+    <main>
+      <form onsubmit="return submitInquiry(event);">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" required>
+
+          <label for="email">Email:</label>
+          <input type="text" name="email" id="email" required>
+
+          <label for="reason">Reason for inquiry:</label>
+          <select name="reason" id="reason" required>
+           <option value=""></option>
+           <option value="Reservation">Reservation</option>
+            <option value="review">Review</option>
+            <option value="other">Other</option>
+          </select>
+
+          <label for="inquiry">Inquiry</label>
+          <textarea for="inquiry" id="inquiry" rows="3" cols="20" required>Enter your inquiry here.</textarea>
+        </div>
+
+        <button input type="reset">Clear Form</button>
+        <button input type="submit">Submit</button>
+      </form>
+    </main>
+
+    <footer>
+      <div class="form-title-section">
+        <h3>Contact Messages</h3><br>
+        <button onclick="clearSubmissions();">Clear Messages</button>
+      </div>
+
+      <div class="form-wrapper">
+        <dl id="currentSubmissions">
+
+        </dl>
+      </div>
+    </footer>
+
+    <script>
+      function clearSubmissions(){
+        if(window.sessionStorage.getItem("inquiries")){
+          window.sessionStorage.removeItem("inquiries");
+        }
+        renderSubmissions();
+      }
+
+      function submitInquiry(event) {
+        event.preventDefault();
+        const name=document.getElementById("name").value;
+        const email=document.getElementById("email").value;
+        const reason=document.getElementById("reason").value;
+        const inquiry=document.getElementById("inquiry").value;
+      
+        const submission={name,email,reason,inquiry};
+        
+        let currentSubmissions = [];
+
+        if (window.sessionStorage.getItem("inquiries")){
+          currentSubmissions = 
+            JSON.parse(
+              window.sessionStorage.getItem("inquiries")
+            );
+        }
+        currentSubmissions.push(submission);
+        window.sessionStorage.setItem("inquiries",JSON.stringify(currentSubmissions));
+      
+      renderSubmissions();}
+
+      function renderSubmissions(){
+        let currentSubmissions = [];
+
+        if (window.sessionStorage.getItem("inquiries")){
+          currentSubmissions = 
+            JSON.parse(
+              window.sessionStorage.getItem("inquiries")
+            );}
+
+        let listItems = [];
+        for(let i=0; i<currentSubmissions.length; i++){
+          let listItem = "";
+          const currentSubmission = currentSubmissions[i];
+          listItem += `<dt>${currentSubmission.name}</dt>`;
+          listItem += `<dt>${currentSubmission.email}</dt>`;
+          listItem += `<dd>${currentSubmission.reason}`;
+          listItem += `<dd>${currentSubmission.inquiry}</dd>`;
+          listItem += `<br>`;
+          listItems.push(listItem);
+        }    
+
+        let descList = document.getElementById('currentSubmissions');
+        descList.innerHTML = listItems.join('');
+      }
+      renderSubmissions();
+    </script>
+  </body>
+</html>

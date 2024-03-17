@@ -1,0 +1,30 @@
+#navcontact{text-decoration:underline;color:#ece0d1}
+
+header {
+  margin:25px;
+  text-align: center;}
+
+main{
+  display: flex;
+  justify-content: center;}
+
+main>form>div{
+  display:grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap:10px}
+
+main>form>button{
+  width:max-content;
+  position: relative;
+  left:298px}
+
+footer{
+  margin-top: 50px;}
+
+.form-wrapper{
+  display:flex;
+  justify-content: center;}
+
+.form-title-section{
+  text-align: center;
+  margin: 20px;}
